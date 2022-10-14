@@ -8,7 +8,7 @@ Policy. No part
 * Name: Devarsh Yatinbhai Dave ID: 163077217 Date: 10/14/2022
 
 *
-* Online (Cyclic) Link: https://busy-red-perch-tam.cyclic.app/about
+* Online (Cyclic) Link: https://busy-red-perch-tam.cyclic.app
 *
 ********************************************************************************/
 
@@ -27,9 +27,9 @@ function onHttpStart() {
 }
 
 cloudinary.config({
-    cloud_name: 'djimq7jgi',
-    api_key: '356968492474775',
-    api_secret: 'QsnKPtzL0UyxUabsJ4xrY1-iULs',
+    cloud_name: 'dh3im9qbr',
+    api_key: '985997496459944',
+    api_secret: 'r1uPEyRIBjMW4RAoH0LVGNJQshw',
     secure: true
 });
 
