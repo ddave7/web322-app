@@ -1,56 +1,96 @@
-const fs = require("fs"); // required at the top of your module
-//Globally declared arrays
-var posts = []
-var categories = []
-    //initialize() function that will read the content of the posts.json object
-exports.initialize = () => {
+const fs = require("fs");
+
+let posts = [];
+let categories = [];
+
+module.exports.initialize = function() {
     return new Promise((resolve, reject) => {
         fs.readFile('./data/posts.json', 'utf8', (err, data) => {
             if (err) {
-                reject("unable to read file");
+                reject(err);
             } else {
                 posts = JSON.parse(data);
-            }
-        });
 
-        fs.readFile('./data/categories.json', 'utf8', (err, data) => {
-            if (err) {
-                reject("unable to read file");
-            } else {
-                categories = JSON.parse(data);
+                fs.readFile('./data/categories.json', 'utf8', (err, data) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        categories = JSON.parse(data);
+                        resolve();
+                    }
+                });
             }
         });
+    });
+}
+
+module.exports.getAllPosts = function() {
+    return new Promise((resolve, reject) => {
+        (posts.length > 0) ? resolve(posts): reject("no results returned");
+    });
+}
+
+module.exports.getPostsByCategory = function(category) {
+    return new Promise((resolve, reject) => {
+        let filteredPosts = posts.filter(post => post.category == category);
+
+        if (filteredPosts.length == 0) {
+            reject("no results returned")
+        } else {
+            resolve(filteredPosts);
+        }
+    });
+}
+
+module.exports.getPostsByMinDate = function(minDateStr) {
+    return new Promise((resolve, reject) => {
+        let filteredPosts = posts.filter(post => (new Date(post.postDate)) >= (new Date(minDateStr)))
+
+        if (filteredPosts.length == 0) {
+            reject("no results returned")
+        } else {
+            resolve(filteredPosts);
+        }
+    });
+}
+
+module.exports.getPostById = function(id) {
+    return new Promise((resolve, reject) => {
+        let foundPost = posts.find(post => post.id == id);
+
+        if (foundPost) {
+            resolve(foundPost);
+        } else {
+            reject("no result returned");
+        }
+    });
+}
+
+module.exports.addPost = function(postData) {
+    return new Promise((resolve, reject) => {
+        postData.published = postData.published ? true : false;
+        postData.id = posts.length + 1;
+        posts.push(postData);
         resolve();
-    })
-};
-//function that will provide the full array of "posts object"
-exports.getAllPosts = () => {
-    return new Promise((resolve, reject) => {
-        if (posts.length == 0) {
-            reject('no results returned');
-        } else {
-            resolve(posts);
-        }
-    })
-};
-//function that will provide an array of "post" objects whose published property is true
-exports.getPublishedPosts = () => {
-    return new Promise((resolve, reject) => {
-        var publishposts = posts.filter(post => post.published == true);
+    });
+}
 
-        if (publishposts.length == 0) {
-            reject('no results returned');
-        }
-        resolve(publishposts);
-    })
-};
-//function that will provide the full array of "category" objects
-exports.getCategories = () => {
+module.exports.getPublishedPosts = function() {
     return new Promise((resolve, reject) => {
-        if (categories.length == 0) {
-            reject('no results returned');
-        } else {
-            resolve(categories);
-        }
-    })
-};
+        let filteredPosts = posts.filter(post => post.published);
+        (filteredPosts.length > 0) ? resolve(filteredPosts): reject("no results returned");
+    });
+}
+
+module.exports.getCategories = function() {
+    return new Promise((resolve, reject) => {
+        (categories.length > 0) ? resolve(categories): reject("no results returned");
+    });
+}
+
+module.exports.getPublishedPostsByCategory = function(category) {
+    return new Promise((resolve, reject) => {
+        let filteredPosts = posts.filter(post => post.published == true && post.category == category);
+        (filteredPosts.length > 0) ? resolve(filteredPosts): reject("no results returned");
+    });
+}
