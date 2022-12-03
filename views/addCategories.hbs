@@ -1,32 +1,57 @@
-<body>
+<div class="row">
 
-    <div class="container" style="padding-top:10px">
+  <div class="col-md-12">
+
+
+
+    <h2>Add Category</h2>
+
+
+
+    <br />
+
+
+
+    <form method="post" action="/categories/add" >
+
+
+
+      <fieldset>
+
+ 
+
         <div class="row">
-            <div class="col-md-12">
 
-                <h2>Add Category</h2>
+          <div class="col-md-12">
 
-                <br />
+            <div class="form-group">
 
-                <form method="post" action="/categories/add" enctype="multipart/form-data">
-                    <fieldset>
-                        <legend>Category</legend>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="title">Category:</label>
-                                    <input class="form-control" id="title" name="category" type="text" />
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
+              <label for="category">Category:</label>
 
-                    <hr />
+              <input class="form-control" id="category" name="category" type="text" autofocus />
 
-                    <input type="submit" class="btn btn-success pull-right" value="Add Category" /><br /><br /><br />
-
-                </form>
             </div>
+
+          </div>
+
         </div>
-    </div>
-</body>
+
+       
+
+      </fieldset>
+
+
+
+      <hr />
+
+
+
+      <input type="submit" class="btn btn-primary pull-right" value="Add Category" /><br /><br /><br />
+
+
+
+    </form>
+
+  </div>
+
+</div>
